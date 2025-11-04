@@ -1,14 +1,20 @@
 package routers
 
-import "github.com/gin-gonic/gin"
+import (
+	"vehicle-service-api/controllers"
+
+	"github.com/gin-gonic/gin"
+)
 
 func InitRouter() *gin.Engine {
 	router := gin.Default()
 
 	api := router.Group("/api")
+	auth := api.Group("/auth")
 
 	{
-		api.GET("/")
+		auth.POST("/register", controllers.Register)
+		auth.POST("/login", controllers.Login)
 	}
 
 	return router
