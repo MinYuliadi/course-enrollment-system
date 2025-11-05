@@ -6,7 +6,8 @@ func CreateTeacher(name, email string, userId int) (int, error) {
 	var id int
 	query := `
 		INSERT INTO teachers
-		name=$1, email=$2, user_id=$3
+		(name, email, user_id)
+		VALUES($1, $2, $3)
 		RETURNING id
 	`
 

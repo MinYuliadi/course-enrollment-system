@@ -34,7 +34,7 @@ func TeachersRegister(c *gin.Context) {
 
 	isEmailAvailable, errEmail := services.CheckTeacherEmail(payload.Email)
 
-	if errEmail != nil {
+	if errEmail != nil && errEmail != sql.ErrNoRows {
 		utils.Error(c, http.StatusInternalServerError, errEmail.Error())
 		return
 	} else if !isEmailAvailable {
@@ -42,7 +42,7 @@ func TeachersRegister(c *gin.Context) {
 		return
 	}
 
-	userId, errCreateUser := services.CreateUser(payload.Username, payload.Password)
+	userId, errCreateUser := services.CreateUser(payload.Username, payload.Password, constants.Teacher)
 
 	if errCreateUser != nil {
 		utils.Error(c, http.StatusInternalServerError, errCreateUser.Error())

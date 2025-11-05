@@ -6,5 +6,5 @@ import (
 )
 
 func Logging(p string) {
-	log.Printf("%s -> p", time.Now())
+	log.Printf("%s -> %s", time.Now(), p)
 }

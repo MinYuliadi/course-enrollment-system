@@ -25,7 +25,7 @@ func StudentsLogin(c *gin.Context) {
 	if errUser == sql.ErrNoRows {
 		utils.Error(c, http.StatusBadRequest, constants.ErrorMessage003)
 		return
-	} else if errUser != nil {
+	} else if errUser != nil && errUser != sql.ErrNoRows {
 		utils.Error(c, http.StatusInternalServerError, errUser.Error())
 		return
 	}
@@ -36,8 +36,10 @@ func StudentsLogin(c *gin.Context) {
 	}
 
 	studentId, errStudentId := services.GetStudentId(user.ID)
-
-	if errStudentId != nil {
+	if errStudentId == sql.ErrNoRows {
+		utils.Error(c, http.StatusUnauthorized, constants.ErrorMessage005)
+		return
+	} else if errStudentId != nil && errStudentId != sql.ErrNoRows {
 		utils.Error(c, http.StatusInternalServerError, errStudentId.Error())
 		return
 	}

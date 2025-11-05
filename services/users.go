@@ -8,12 +8,12 @@ import (
 
 func GetUsersByUsername(username string) (user entity.User, err error) {
 	query := `
-		SELECT id, username,
+		SELECT id, username, role
 		FROM users
 		WHERE username=$1
 	`
 
-	if err = config.DB.QueryRow(query, username).Scan(&user.ID, &user.Username); err != nil {
+	if err = config.DB.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Role); err != nil {
 		return user, err
 	}
 
@@ -22,22 +22,23 @@ func GetUsersByUsername(username string) (user entity.User, err error) {
 
 func GetUsersByUsernameWithPassword(username string) (user entity.User, err error) {
 	query := `
-		SELECT id, username, password
+		SELECT id, username, role, password
 		FROM users
 		WHERE username=$1
 	`
 
-	if err = config.DB.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Password); err != nil {
+	if err = config.DB.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Role, &user.Password); err != nil {
 		return user, err
 	}
 
 	return user, nil
 }
 
-func CreateUser(username, password string) (id int, err error) {
+func CreateUser(username, password, role string) (id int, err error) {
 	query := `
 		INSERT INTO users
-		username=$1, password=$2
+		(username, password, role)
+		VALUES($1, $2, $3)
 		RETURNING id
 	`
 
@@ -47,7 +48,7 @@ func CreateUser(username, password string) (id int, err error) {
 		return 0, errHashing
 	}
 
-	if errQuery := config.DB.QueryRow(query, username, hashedPassword).Scan(&id); errQuery != nil {
+	if errQuery := config.DB.QueryRow(query, username, hashedPassword, role).Scan(&id); errQuery != nil {
 		return 0, errQuery
 	}
 

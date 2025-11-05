@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"course-enrollment-system/constants"
+	"course-enrollment-system/services"
 	"course-enrollment-system/utils"
 	"net/http"
 	"strings"
@@ -10,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AuthValidation() gin.HandlerFunc {
+func TeacherValidation() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 
@@ -32,6 +33,16 @@ func AuthValidation() gin.HandlerFunc {
 
 		if time.Now().Unix() > claims.ExpiresAt.Unix() {
 			utils.Error(c, http.StatusUnauthorized, "expired token")
+		}
+
+		teacher, errTeacher := services.GetUsersByUsername(claims.Username)
+
+		if errTeacher != nil {
+			utils.Error(c, http.StatusInternalServerError, errTeacher.Error())
+			return
+		} else if teacher.Role != constants.Teacher {
+			utils.Error(c, http.StatusUnauthorized, constants.ErrorMessage005)
+			return
 		}
 
 		c.Set(constants.Username, claims.Username)
