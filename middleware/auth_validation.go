@@ -35,6 +35,7 @@ func AuthValidation() gin.HandlerFunc {
 		}
 
 		c.Set(constants.Username, claims.Username)
+		c.Set(constants.Id, claims.MyId)
 		c.Next()
 	}
 }

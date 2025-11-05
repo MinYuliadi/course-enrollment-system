@@ -35,17 +35,17 @@ func TeachersLogin(c *gin.Context) {
 		return
 	}
 
-	token, errToken := utils.GenerateJWT(payload.Username)
-
-	if errToken != nil {
-		utils.Error(c, http.StatusInternalServerError, errToken.Error())
-		return
-	}
-
 	teacherId, errTeacherId := services.GetTeacherId(user.ID)
 
 	if errTeacherId != nil {
 		utils.Error(c, http.StatusInternalServerError, errTeacherId.Error())
+		return
+	}
+
+	token, errToken := utils.GenerateJWT(payload.Username, teacherId)
+
+	if errToken != nil {
+		utils.Error(c, http.StatusInternalServerError, errToken.Error())
 		return
 	}
 

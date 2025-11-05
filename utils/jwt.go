@@ -10,10 +10,11 @@ import (
 
 type JWTClaim struct {
 	Username string `json:"username"`
+	MyId     int    `json:"myId"`
 	jwt.RegisteredClaims
 }
 
-func GenerateJWT(username string) (string, error) {
+func GenerateJWT(username string, id int) (string, error) {
 	if err := godotenv.Load(); err != nil {
 		return "", err
 	}
@@ -24,6 +25,7 @@ func GenerateJWT(username string) (string, error) {
 
 	claims := JWTClaim{
 		Username: username,
+		MyId:     id,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

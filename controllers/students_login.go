@@ -35,17 +35,17 @@ func StudentsLogin(c *gin.Context) {
 		return
 	}
 
-	token, errToken := utils.GenerateJWT(payload.Username)
-
-	if errToken != nil {
-		utils.Error(c, http.StatusInternalServerError, errToken.Error())
-		return
-	}
-
 	studentId, errStudentId := services.GetStudentId(user.ID)
 
 	if errStudentId != nil {
 		utils.Error(c, http.StatusInternalServerError, errStudentId.Error())
+		return
+	}
+
+	token, errToken := utils.GenerateJWT(payload.Username, studentId)
+
+	if errToken != nil {
+		utils.Error(c, http.StatusInternalServerError, errToken.Error())
 		return
 	}
 
