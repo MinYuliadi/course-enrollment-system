@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"vehicle-service-api/controllers"
+	"course-enrollment-system/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,11 +10,15 @@ func InitRouter() *gin.Engine {
 	router := gin.Default()
 
 	api := router.Group("/api")
-	auth := api.Group("/auth")
+	students := api.Group("/students")
+	teachers := api.Group("/teachers")
 
 	{
-		auth.POST("/register", controllers.Register)
-		auth.POST("/login", controllers.Login)
+		students.POST("/register", controllers.StudentsRegister)
+		students.POST("/login", controllers.StudentsLogin)
+
+		teachers.POST("/register", controllers.TeachersRegister)
+		teachers.POST("/login", controllers.TeachersLogin)
 	}
 
 	return router

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"vehicle-service-api/config"
-	"vehicle-service-api/routers"
+	"course-enrollment-system/config"
+	"course-enrollment-system/routers"
 )
 
 func main() {

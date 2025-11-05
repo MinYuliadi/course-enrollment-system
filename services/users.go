@@ -1,9 +1,9 @@
 package services
 
 import (
-	"vehicle-service-api/config"
-	"vehicle-service-api/entity"
-	"vehicle-service-api/utils"
+	"course-enrollment-system/config"
+	"course-enrollment-system/entity"
+	"course-enrollment-system/utils"
 )
 
 func GetUsersByUsername(username string) (user entity.User, err error) {

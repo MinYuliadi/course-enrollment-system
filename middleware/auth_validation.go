@@ -1,11 +1,11 @@
 package middleware
 
 import (
+	"course-enrollment-system/constants"
+	"course-enrollment-system/utils"
 	"net/http"
 	"strings"
 	"time"
-	"vehicle-service-api/constants"
-	"vehicle-service-api/utils"
 
 	"github.com/gin-gonic/gin"
 )
