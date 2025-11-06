@@ -15,4 +15,5 @@ var (
 	ErrorMessage008 = "data not found"
 	ErrorMessage009 = "duplicate data, cannot enroll the same course"
 	ErrorMessage010 = "invalid status, must be 'present', 'absent' or 'late'"
+	ErrorMessage011 = "grade for this enrollment id already exist"
 )

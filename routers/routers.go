@@ -25,11 +25,14 @@ func InitRouter() *gin.Engine {
 
 		students.POST("/enrollment", controllers.StudentsEnrollment)
 		students.GET("/my-course", controllers.CourseListByStudentId)
+		// create route for getting attendance list by course id from enrollment table
+		// create route for getting grade list by course id from enrollment table
 
 		teachers.POST("/courses", controllers.TeacherCreateCourse)
 		teachers.GET("/my-course", controllers.CourseListByTeacherId)
 		teachers.GET("/courses/:id/students", controllers.StudentsListByCourseId)
 		teachers.POST("/attendance", controllers.AssignAttendance)
+		teachers.POST("/grades", controllers.AssignGrade)
 	}
 
 	return router
