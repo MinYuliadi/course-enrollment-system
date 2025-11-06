@@ -75,11 +75,11 @@
 ### 🧬 ERD (Entity Relationship Diagram)
 
 ```
-students ─┬────< enrollments >────┬─ courses ──┬── teachers
-          │                       │
-          │                       ├──< attendance
-          │                       │
-          │                       └──< grades
+students ──────< enrollments >────┬─ courses ──┬── teachers
+                                  │
+                                  ├──< attendance
+                                  │
+                                  └─── grades
 ```
 
 ## Relationships

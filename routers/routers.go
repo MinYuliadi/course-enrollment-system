@@ -28,6 +28,8 @@ func InitRouter() *gin.Engine {
 
 		teachers.POST("/courses", controllers.TeacherCreateCourse)
 		teachers.GET("/my-course", controllers.CourseListByTeacherId)
+		teachers.GET("/courses/:id/students", controllers.StudentsListByCourseId)
+		teachers.POST("/attendance", controllers.AssignAttendance)
 	}
 
 	return router

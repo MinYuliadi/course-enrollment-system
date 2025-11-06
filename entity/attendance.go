@@ -8,3 +8,9 @@ type Attendance struct {
 	Date         time.Time `db:"date" json:"date"`
 	Status       string    `db:"status" json:"status"`
 }
+
+type AttendanceListByEnrollment struct {
+	ID     int    `db:"id" json:"id"`
+	Date   string `db:"date" json:"date"`
+	Status string `db:"status" json:"status"`
+}
