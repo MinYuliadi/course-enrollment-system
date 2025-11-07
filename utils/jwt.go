@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"course-enrollment-system/config"
 	"os"
 	"time"
 
@@ -16,8 +15,6 @@ type JWTClaim struct {
 }
 
 func GenerateJWT(username string, id int) (string, error) {
-	config.InitEnv()
-
 	if err := godotenv.Load(); err != nil {
 		return "", err
 	}
@@ -46,8 +43,6 @@ func GenerateJWT(username string, id int) (string, error) {
 }
 
 func ValidateJWT(tokenString string) (*JWTClaim, error) {
-	config.InitEnv()
-
 	if err := godotenv.Load(); err != nil {
 		return nil, err
 	}

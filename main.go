@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	config.InitEnv()
 	config.InitDB()
 
 	r := routers.InitRouter()
