@@ -14,7 +14,7 @@ func InitEnv() {
 		log.Println(".env file not found, using environment variables instead")
 	}
 
-	requiredVars := []string{"DB_URL", "JWT_KEY"}
+	requiredVars := []string{"DATABASE_PUBLIC_URL", "JWT_KEY"}
 	for _, v := range requiredVars {
 		if os.Getenv(v) == "" {
 			log.Printf("Warning: Environment variable %s is not set\n", v)
