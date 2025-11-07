@@ -1,4 +1,4 @@
-module vehicle-service-api
+module course-enrollment-system
 
 go 1.25.2
 

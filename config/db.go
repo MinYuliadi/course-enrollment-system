@@ -1,11 +1,11 @@
 package config
 
 import (
+	migrations "course-enrollment-system/migration"
 	"database/sql"
 	"fmt"
 	"log"
 	"os"
-	migrations "vehicle-service-api/migration"
 
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
