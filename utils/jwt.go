@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/joho/godotenv"
 )
 
 type JWTClaim struct {
@@ -15,10 +14,6 @@ type JWTClaim struct {
 }
 
 func GenerateJWT(username string, id int) (string, error) {
-	if err := godotenv.Load(); err != nil {
-		return "", err
-	}
-
 	jwtKey := []byte(os.Getenv("JWT_KEY"))
 
 	expirationTime := time.Now().Add(1 * time.Hour)
@@ -43,10 +38,6 @@ func GenerateJWT(username string, id int) (string, error) {
 }
 
 func ValidateJWT(tokenString string) (*JWTClaim, error) {
-	if err := godotenv.Load(); err != nil {
-		return nil, err
-	}
-
 	jwtKey := []byte(os.Getenv("JWT_KEY"))
 
 	claims := &JWTClaim{}
