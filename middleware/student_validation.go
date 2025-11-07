@@ -33,15 +33,19 @@ func StudentValidation() gin.HandlerFunc {
 
 		if time.Now().Unix() > claims.ExpiresAt.Unix() {
 			utils.Error(c, http.StatusUnauthorized, "expired token")
+			c.Abort()
+			return
 		}
 
 		user, errTeacher := services.GetUsersByUsername(claims.Username)
 
 		if errTeacher != nil {
 			utils.Error(c, http.StatusInternalServerError, errTeacher.Error())
+			c.Abort()
 			return
 		} else if user.Role != constants.Student {
-			utils.Error(c, http.StatusUnauthorized, constants.ErrorMessage005)
+			utils.Error(c, http.StatusUnauthorized, constants.ErrorMessage007)
+			c.Abort()
 			return
 		}
 
