@@ -3,6 +3,7 @@ package controllers
 import (
 	"course-enrollment-system/constants"
 	"course-enrollment-system/dto"
+	"course-enrollment-system/entity"
 	"course-enrollment-system/services"
 	"course-enrollment-system/utils"
 	"database/sql"
@@ -90,6 +91,54 @@ func CourseListByStudentId(c *gin.Context) {
 		temp.TeacherId = *course.TeacherID
 
 		response = append(response, temp)
+	}
+
+	utils.Success(c, "Success", response)
+}
+
+func CourseDetailByStudentId(c *gin.Context) {
+	var response dto.CoursesListByStudentDTO
+	studentId, exist := c.Get(constants.Id)
+	courseId := c.Param("id")
+	if !exist {
+		utils.Error(c, http.StatusInternalServerError, constants.ErrorMessage006)
+		return
+	}
+
+	course, errCourse := services.GetCourseDetailByStudentId(studentId.(int), courseId)
+
+	if errCourse == sql.ErrNoRows {
+		utils.Error(c, http.StatusNotFound, constants.ErrorMessage008)
+		return
+	}
+	if errCourse != nil {
+		utils.Error(c, http.StatusInternalServerError, errCourse.Error())
+		return
+	}
+
+	response.Id = course.Id
+	response.Title = course.Title
+	response.Descriptions = course.Descriptions
+	response.TeacherId = course.TeacherId
+	response.TeacherName = course.TeacherName
+	response.Grade = course.Grade
+	response.Remarks = course.Remarks
+
+	attendance, errAttendance := services.GetAttendanceByEnrollmentId(course.EnrollmentId)
+
+	if errAttendance != nil {
+		utils.Error(c, http.StatusInternalServerError, errAttendance.Error())
+		return
+	}
+
+	response.Attendance = &[]entity.AttendanceListByEnrollment{}
+
+	for _, attend := range attendance {
+		var attendanceTemp entity.AttendanceListByEnrollment
+		attendanceTemp.ID = attend.ID
+		attendanceTemp.Date = attend.Date
+		attendanceTemp.Status = attend.Status
+		*response.Attendance = append(*response.Attendance, attendanceTemp)
 	}
 
 	utils.Success(c, "Success", response)

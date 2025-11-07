@@ -23,16 +23,6 @@ func StudentsListByCourseId(c *gin.Context) {
 
 	for _, student := range students {
 		var temp dto.StudentsListByCourseDTO
-		// response = append(response, dto.StudentsListByCourseDTO{
-		// 	Id:               student.Id,
-		// 	Name:             student.Name,
-		// 	Email:            student.Email,
-		// 	CreatedAt:        student.CreatedAt,
-		// 	UserId:           student.UserId,
-		// 	AttendanceStatus: student.AttendanceStatus,
-		// 	Grade:            student.Grade,
-		// 	EnrollmentId:     student.EnrollmentId,
-		// })
 
 		temp.Id = student.Id
 		temp.Name = student.Name
@@ -40,8 +30,10 @@ func StudentsListByCourseId(c *gin.Context) {
 		temp.CreatedAt = student.CreatedAt
 		temp.UserId = student.UserId
 		temp.EnrollmentId = student.EnrollmentId
+		temp.Grade = student.Grade
+		temp.Remarks = student.Remarks
 
-		attendaces, err := services.GetAttendanceByEnrollmentId(*student.EnrollmentId)
+		attendaces, err := services.GetAttendanceByEnrollmentId(student.EnrollmentId)
 
 		if err != nil {
 			utils.Error(c, http.StatusInternalServerError, err.Error())

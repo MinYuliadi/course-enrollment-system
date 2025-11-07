@@ -40,9 +40,10 @@ func GetStudentsByCourseId(courseId string) ([]entity.StudentsListByCourseEntity
 	var students []entity.StudentsListByCourseEntity
 
 	query := `
-		SELECT s.id, s.name, s.email, s.created_at, s.user_id, ec.id AS enrollment_id
+		SELECT s.id, s.name, s.email, s.created_at, s.user_id, ec.id AS enrollment_id, g.grade, g.remarks
 		FROM enrollments ec
 		LEFT JOIN students s ON ec.student_id = s.id
+		LEFT JOIN grades g ON ec.id = g.enrollment_id
 		WHERE ec.course_id = $1
 	`
 
@@ -56,7 +57,7 @@ func GetStudentsByCourseId(courseId string) ([]entity.StudentsListByCourseEntity
 
 	for rows.Next() {
 		var student entity.StudentsListByCourseEntity
-		if err := rows.Scan(&student.Id, &student.Name, &student.Email, &student.CreatedAt, &student.UserId, &student.EnrollmentId); err != nil {
+		if err := rows.Scan(&student.Id, &student.Name, &student.Email, &student.CreatedAt, &student.UserId, &student.EnrollmentId, &student.Grade, &student.Remarks); err != nil {
 			return nil, err
 		}
 

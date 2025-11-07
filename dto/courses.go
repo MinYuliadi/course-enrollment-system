@@ -1,6 +1,9 @@
 package dto
 
-import "time"
+import (
+	"course-enrollment-system/entity"
+	"time"
+)
 
 type CoursePayload struct {
 	Title       string `json:"title"`
@@ -16,6 +19,17 @@ type CoursesList struct {
 	Title        string `json:"title"`
 	Descriptions string `json:"description"`
 	TeacherId    int    `json:"teacher_id"`
+}
+
+type CoursesListByStudentDTO struct {
+	Id           int                                  `json:"id"`
+	Title        string                               `json:"title"`
+	Descriptions string                               `json:"description"`
+	TeacherId    int                                  `json:"teacher_id"`
+	TeacherName  string                               `json:"teacher_name"`
+	Attendance   *[]entity.AttendanceListByEnrollment `json:"attendances"`
+	Grade        *string                              `json:"grade"`
+	Remarks      *string                              `json:"remarks"`
 }
 
 type CourseDetail struct {

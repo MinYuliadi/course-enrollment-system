@@ -138,3 +138,32 @@ func GetCoursesByStudentId(studentId int) ([]entity.Course, error) {
 
 	return data, nil
 }
+
+func GetCourseDetailByStudentId(studentId int, courseId string) (entity.CoursesListByStudent, error) {
+	var data entity.CoursesListByStudent
+
+	query := `
+		SELECT 
+			c.id,
+			c.title,
+			c.description,
+			c.teacher_id,
+			t.name AS teacher_name,
+			g.grade,
+			g.remarks,
+			e.id AS enrollment_id
+		FROM enrollments AS e
+		JOIN courses AS c ON e.course_id = c.id
+		JOIN teachers AS t ON c.teacher_id = t.id
+		LEFT JOIN grades AS g ON e.id = g.enrollment_id
+		WHERE e.student_id=$1 AND c.id=$2
+	`
+
+	err := config.DB.QueryRow(query, studentId, courseId).Scan(&data.Id, &data.Title, &data.Descriptions, &data.TeacherId, &data.TeacherName, &data.Grade, &data.Remarks, &data.EnrollmentId)
+
+	if err != nil {
+		return data, err
+	}
+
+	return data, nil
+}
